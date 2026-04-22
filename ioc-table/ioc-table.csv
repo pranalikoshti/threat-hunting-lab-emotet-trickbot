@@ -1,0 +1,11 @@
+IOC Type,Value,Source PCAP,Notes,VirusTotal Score,MITRE ATT&CK
+IP Address,101.99.3.20,Emotet,Primary C2 server delivering initial ZIP payload via fake WordPress URI,5/94,"T1105, T1036"
+URI Path,/wp-content/L/?160244,Emotet,Disguised HTTP request masquerading as WordPress traffic,N/A,T1036
+Filename,BVGIRVlgdJNp9RRpMUXcp.zip,Emotet,Malicious ZIP archive delivered by C2 server,0/94,T1105
+IP Address,165.227.166.238,Emotet,Secondary C2 on non-standard port 8080 to evade firewall rules,10/94,T1071.001
+IP Address,162.246.19.18,Emotet,Target of heavy outbound SMTPS traffic on port 465 for spam propagation,0/94,T1566
+IP Address,36.95.27.243,Trickbot,Initial C2 server receiving infected host registration data,1/94,T1071.001
+IP Address,103.102.220.50,Trickbot,Secondary C2 server receiving infected host registration data,3/94,T1071.001
+IP Address,5.199.162.3,Trickbot,Suspected Cobalt Strike C2 receiving beacons every 6 seconds,1/94,"T1071.001, T1219"
+URI Path,/rob87/ and /tot108/,Trickbot,Trickbot campaign IDs used during botnet registration,N/A,T1071.001
+File Path,\Policies\...\gpt.ini,Trickbot,Weaponized GPO on DC SYSVOL share used for lateral movement,N/A,"T1484.001, T1021.002"
