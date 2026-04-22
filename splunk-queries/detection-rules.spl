@@ -1,0 +1,84 @@
+# Threat Hunting Lab — Splunk Detection Rules
+# Author: Pranali Koshti
+# Date: April 2026
+# Index: threat_hunt
+
+# ============================================================
+# RULE 1: C2 BEACONING DETECTION
+# Detects repeated HTTP connections to same external destination
+# Maps to: MITRE T1071.001 - Application Layer Protocol: Web Protocols
+# ============================================================
+
+index="threat_hunt" http_request_uri=*
+| eval hour=strftime(_time, "%Y-%m-%d %H")
+| stats count by ip_dst, hour
+| where count > 2
+| sort -count
+
+# Alert: Trigger when Number of Results > 0
+# Severity: High
+# Description: External IP receiving repeated HTTP connections
+# may indicate C2 beaconing behavior
+
+
+# ============================================================
+# RULE 2: DGA DOMAIN DETECTION
+# Detects DNS queries for unusually long domain names
+# Maps to: MITRE T1568.002 - Dynamic Resolution: DGA
+# ============================================================
+
+index="threat_hunt" dns_qry_name=*
+| eval domain_len=len(dns_qry_name)
+| where domain_len > 20
+| stats count by dns_qry_name, ip_src
+| sort -count
+
+# Alert: Trigger when Number of Results > 0
+# Severity: Medium
+# Description: DNS queries for domains with names longer than
+# 20 characters are a strong DGA indicator. Malware cycles
+# through algorithmically generated domains to find active C2.
+
+
+# ============================================================
+# RULE 3: DATA EXFILTRATION DETECTION
+# Detects large outbound data transfers regardless of IP reputation
+# Maps to: MITRE T1048 - Exfiltration Over Alternative Protocol
+# ============================================================
+
+index="threat_hunt"
+| where frame_len > 1400
+| stats sum(frame_len) as total_bytes by ip_dst
+| eval total_mb=round(total_bytes/1048576,2)
+| where total_mb > 1
+| sort -total_mb
+
+# Alert: Trigger when Number of Results > 0
+# Severity: High
+# Description: External IP receiving more than 1MB of large packets.
+# Behavioral rule - does not rely on IP reputation scores.
+# Several confirmed C2 servers in this analysis scored 0/94 on
+# VirusTotal, demonstrating why behavioral rules matter.
+
+
+# ============================================================
+# BONUS: HTTP TRAFFIC OVERVIEW
+# Shows all HTTP requests for manual review
+# ============================================================
+
+index="threat_hunt" http_request_uri=*
+| table _time, ip_src, ip_dst, http_request_method, http_request_uri, frame_len
+| sort _time
+
+
+# ============================================================
+# BONUS: TOP EXTERNAL DESTINATIONS BY VOLUME
+# Identifies highest-volume external connections
+# ============================================================
+
+index="threat_hunt"
+| where frame_len > 500
+| stats sum(frame_len) as total_bytes by ip_dst
+| eval total_kb=round(total_bytes/1024,1)
+| sort -total_kb
+| head 10
