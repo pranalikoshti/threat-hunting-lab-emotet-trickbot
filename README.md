@@ -161,3 +161,28 @@ threat-hunting-lab-emotet-trickbot/
 │   └── ioc-table.csv                           — Full IOC table with VT scores
 └── methodology/
 └── analysis-notes.md                       — Detailed analysis notes
+
+---
+
+## Tools Used
+
+- Wireshark 4.x — packet capture analysis and IOC extraction
+- tshark — command line PCAP to CSV conversion
+- Splunk Enterprise Free — log ingestion and detection rule development
+- MITRE ATT&CK Navigator — technique mapping and heatmap generation
+- VirusTotal — IOC reputation verification
+- AbuseIPDB — IP abuse history lookup
+
+---
+
+## About
+
+This project was completed as part of my cybersecurity portfolio while finishing 
+my MS in Management Information Systems (cybersecurity concentration) at the 
+University at Buffalo, May 2026.
+
+I have 3 years of production network security experience at Samsung Electronics 
+including SIRT operations, IAM design for 10,000+ node nationwide deployments, 
+and Wireshark-based security testing of India's national Emergency Alert System.
+
+Connect with me: linkedin.com/in/pranalikoshti
