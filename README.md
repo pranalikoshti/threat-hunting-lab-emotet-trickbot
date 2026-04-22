@@ -145,3 +145,19 @@ what signatures miss.
 ---
 
 ## Repository Structure
+threat-hunting-lab-emotet-trickbot/
+├── README.md                          — This file
+├── report/
+│   └── ThreatHuntingReport-PranaliKoshti.pdf   — Full threat hunting report
+├── screenshots/
+│   ├── wireshark-emotet-c2-request.png         — Emotet C2 finding
+│   ├── wireshark-statistics-conversations.png  — Top talkers analysis
+│   ├── wireshark-http-stream.png               — HTTP stream inspection
+│   ├── splunk-dashboard.png                    — Detection dashboard
+│   └── mitre-attack-heatmap.png                — ATT&CK coverage map
+├── splunk-queries/
+│   └── detection-rules.spl                     — All 3 SPL detection rules
+├── ioc-table/
+│   └── ioc-table.csv                           — Full IOC table with VT scores
+└── methodology/
+└── analysis-notes.md                       — Detailed analysis notes
